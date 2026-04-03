@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: demo
+  
+  autoconfigure:
+    exclude:
+      - org.springframework.ai.autoconfigure.chat.client.ChatClientAutoConfiguration
+  config:
+    import: aws-secretsmanager:rag-app/secrets
+
+  ai:
+    anthropic:
+      api-key: ${ANTRHOPIC_KEY}
+      chat:
+        options:
+          model: claude-sonnet-4-20250514
+          max-tokens: 100
+          system: >
+            You are a stock market assistant.
+            You ONLY answer questions related to stocks, trading, market trends, and financial analysis.
+            If a question is not related to the stock market or finance, respond with: "I can only help with stock market and finance related questions."
+            Keep all responses under 3 sentences. Be concise and direct.
+            Always answer based on the context provided.
+            If the answer is not in the context, say you do not have enough information.
+
+    huggingface:
+      api-key: ${HUGGINGFACE_KEY}
+      chat:
+        options:
+          model: your-model-name
+
+    openai:
+      api-key: ${OPENAPI_KEY}
+      embedding:
+        options:
+          model: text-embedding-3-small
+
+    vectorstore:
+      pgvector:
+        initialize-schema: true     # auto creates vector table on startup
+        dimensions: 1536            # must match text-embedding-3-small output
+        distance-type: COSINE_DISTANCE
+        index-type: HNSW     
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+# File upload size limit
+spring.servlet.multipart.max-file-size: 10MB
+spring.servlet.multipart.max-request-size: 10MB
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.ai: DEBUG
+    org.springframework.web.reactive.function.client: TRACE
+
+app:
+  default:
+    provider: claude

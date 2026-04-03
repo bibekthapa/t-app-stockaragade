@@ -1,0 +1,6 @@
+# application.yml
+spring:
+  application:
+    name: rag-app
+  profiles:
+    active: local          # change to 'aws' when deploying
