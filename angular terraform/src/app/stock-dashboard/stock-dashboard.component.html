@@ -1,0 +1,29 @@
+<h2>Stock Data</h2>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Trade ID</th>
+      <th>Trade Type</th>
+      <th>Open Price</th>
+      <th>Close Price</th>
+      <th>Current Price</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Volume</th>
+    </tr>
+  </thead>
+  <tbody>
+   <tr *ngFor="let stock of stockData">
+  <td data-label="Trade ID">{{ stock.tradeId }}</td>
+  <td data-label="Trade Type">{{ stock.tradeType }}</td>
+  <td data-label="Open Price">{{ stock.priceOpen | number:'1.2-2' }}</td>
+  <td data-label="Close Price">{{ stock.priceClose | number:'1.2-2' }}</td>
+  <td data-label="Current Price">{{ stock.priceCurrent | number:'1.2-2' }}</td>
+  <td data-label="High">{{ stock.priceHigh | number:'1.2-2' }}</td>
+  <td data-label="Low">{{ stock.priceLow | number:'1.2-2' }}</td>
+  <td data-label="Volume">{{ stock.priceVolume | number:'1.2-2' }}</td>
+</tr>
+
+  </tbody>
+</table>

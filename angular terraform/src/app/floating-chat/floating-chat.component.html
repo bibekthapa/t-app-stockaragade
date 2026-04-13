@@ -1,0 +1,11 @@
+<!-- Floating Button -->
+<button class="float-btn" (click)="toggleChat()">
+
+<i *ngIf="!isOpen" class="fa-solid fa-comment-dots"></i> <span *ngIf="!isOpen">Chat</span>
+  <i *ngIf="isOpen"  class="fa-solid fa-xmark"></i><span *ngIf="isOpen">Close</span>
+</button>
+
+<!-- Popup Wrapper -->
+<div class="chat-popup" [class.open]="isOpen">
+  <app-chat></app-chat>
+</div>

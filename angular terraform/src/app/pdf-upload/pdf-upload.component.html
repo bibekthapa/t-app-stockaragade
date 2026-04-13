@@ -1,0 +1,63 @@
+<div class="upload-container">
+
+  <!-- Drop Zone -->
+  <div
+    class="drop-zone"
+    [class.drag-over]="isDragOver"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+  >
+    <div class="drop-icon">📄</div>
+    <p class="drop-title">Drag & drop PDF files here</p>
+    <p class="drop-sub">or</p>
+    <label class="browse-btn">
+      Browse files
+      <input
+        type="file"
+        accept=".pdf"
+        multiple
+        hidden
+        (change)="onFileSelected($event)"
+      />
+    </label>
+    <p class="drop-hint">PDF only · Max {{ MAX_FILE_SIZE_MB }}MB per file</p>
+  </div>
+
+  <!-- File List -->
+  <div class="file-list" *ngIf="uploadedFiles.length > 0">
+    <div class="file-card" *ngFor="let f of uploadedFiles; let i = index">
+
+      <!-- PDF Preview Thumbnail -->
+      <div class="preview-box">
+        <iframe
+          *ngIf="f.previewUrl"
+          [src]="f.previewUrl"
+          class="pdf-iframe"
+          scrolling="no"
+        ></iframe>
+        <div *ngIf="!f.previewUrl" class="preview-placeholder">PDF</div>
+      </div>
+
+      <!-- File Info -->
+      <div class="file-info">
+        <p class="file-name">{{ f.file.name }}</p>
+        <p class="file-size">{{ formatSize(f.file.size) }}</p>
+
+        <!-- Progress Bar -->
+        <div class="progress-track" *ngIf="f.status === 'uploading'">
+          <div class="progress-fill" [style.width.%]="f.progress"></div>
+        </div>
+        <p class="progress-label" *ngIf="f.status === 'uploading'">{{ f.progress }}%</p>
+
+        <!-- Status -->
+        <p class="status success" *ngIf="f.status === 'success'">✔ Uploaded successfully</p>
+        <p class="status error" *ngIf="f.status === 'error'">✘ {{ f.errorMessage }}</p>
+      </div>
+
+      <!-- Remove Button -->
+      <button class="remove-btn" (click)="removeFile(i)">✕</button>
+    </div>
+  </div>
+
+</div>
